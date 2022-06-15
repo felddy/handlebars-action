@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
 
       - name: Set Node.js 16.x
-        uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
+        uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd
         with:
           node-version: 16.x
 
