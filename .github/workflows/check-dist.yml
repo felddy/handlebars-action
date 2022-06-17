@@ -1,3 +1,4 @@
+---
 # `dist/index.js` is a special file in Actions.
 # When you reference an action with `uses:` in a workflow,
 # `index.js` is the code that will run.
@@ -8,7 +9,7 @@ name: Check dist/
 on:
   push:
     branches:
-      - main
+      - develop
     paths-ignore:
       - '**.md'
   pull_request:
@@ -16,15 +17,23 @@ on:
       - '**.md'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   check-dist:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Harden Runner
+        uses: step-security/harden-runner@248ae51c2e8cc9622ecf50685c8bf7150c6e8813
+        with:
+          egress-policy: audit  # TODO: change to 'egress-policy: block' after couple of runs
+
+      - uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
 
       - name: Set Node.js 16.x
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd
         with:
           node-version: 16.x
 
@@ -46,7 +55,7 @@ jobs:
         id: diff
 
       # If index.js was different than expected, upload the expected version as an artifact
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8
         if: ${{ failure() && steps.diff.conclusion == 'failure' }}
         with:
           name: dist

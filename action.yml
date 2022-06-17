@@ -1,11 +1,25 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+---
+
+name: 'Handlebars'
+author: 'felddy'
+branding:
+  icon: 'edit'
+  color: 'purple'
+description: 'Apply a handlebars template'
 inputs:
-  milliseconds: # change this
+  template:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'Template filename'
+  json:
+    required: true
+    description: 'JSON input object'
+  dest:
+    required: false
+    description: 'Output filename'
+outputs:
+  result:
+    description: 'Rendered template'
+
 runs:
   using: 'node16'
   main: 'dist/index.js'

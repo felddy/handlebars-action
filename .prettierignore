@@ -5,6 +5,8 @@
 # Already being linted by yamllint
 *.yaml
 *.yml
+# Handlebars
+*.hbs
 # Generated paths
 dist/
 lib/

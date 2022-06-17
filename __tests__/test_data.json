@@ -1,0 +1,14 @@
+{
+  "hometown": "Somewhere, TX",
+  "kids": [
+    {
+      "age": "12",
+      "name": "Jimmy"
+    },
+    {
+      "age": "4",
+      "name": "Sally"
+    }
+  ],
+  "name": "Alan"
+}

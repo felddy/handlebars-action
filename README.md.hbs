@@ -1,4 +1,4 @@
-[![GitHub Build Status](https://github.com/felddy/handlebars-action/workflows/build-test/badge.svg)](https://github.com/felddy/handlebars-action/actions/workflows/test.yml)
+[![GitHub Build Status](https://github.com/{{github.repository}}/workflows/build-test/badge.svg)](https://github.com/{{github.repository}}/actions/workflows/test.yml)
 
 # Handlebars Action #
 
@@ -6,17 +6,20 @@ Tickle! x2
 
 ## Test template ##
 
-Hello, my name is Alan.
-I am from Somewhere, TX.
-I have 2 kids:
+{{#with fam}}
+Hello, my name is {{name}}.
+I am from {{hometown}}.
+I have {{kids.length}} kids:
 
-- Jimmy is 12
-- Sally is 4
+{{#kids}}
+- {{name}} is {{age}}
+{{/kids}}
+{{/with}}
 
-My kids like to use the [GitHub API]().
+My kids like to use the [GitHub API]({{github.apiUrl}}).
 
-This repo is: felddy/handlebars-action
-Or maybe it is: [object Object]
+This repo is: {{github.repository}}
+Or maybe it is: {{github.event.repository}}
 
 2321
 

@@ -1,24 +1,43 @@
+---
+
 name: 'build-test'
-on: # rebuild any PRs and main branch changes
+on:  # rebuild any PRs and main branch changes
   pull_request:
   push:
     branches:
-      - main
+      - develop
       - 'releases/*'
 
 jobs:
-  build: # make sure build/ci work properly
+  build:  # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Harden Runner
+        uses: step-security/harden-runner@248ae51c2e8cc9622ecf50685c8bf7150c6e8813
+        with:
+          egress-policy: audit  # TODO: change to 'egress-policy: block' after couple of runs
+
+      - uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - run: |
           npm install
       - run: |
           npm run all
-  test: # make sure the action works on a clean machine without building
+  test:  # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Harden Runner
+        uses: step-security/harden-runner@248ae51c2e8cc9622ecf50685c8bf7150c6e8813
+        with:
+          egress-policy: audit  # TODO: change to 'egress-policy: block' after couple of runs
+
+      - uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
+      - name: Read input object file
+        id: fam
+        run: |
+          echo 'TEST_DATA<<EOF' >> $GITHUB_ENV
+          cat __tests__/test_data.json >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
       - uses: ./
         with:
-          milliseconds: 1000
+          template: ./__tests__/template.md.hbs
+          json: ${{ env.TEST_DATA }}
