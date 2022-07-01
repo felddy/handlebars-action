@@ -34,14 +34,10 @@ exports.generate = void 0;
 const fs_1 = __nccwpck_require__(7147);
 const core = __importStar(__nccwpck_require__(2186));
 const Handlebars = __importStar(__nccwpck_require__(7492));
-async function generate(template_filename, input_object, output_filename) {
+async function generate(template_data, input_data, output_filename) {
     return new Promise(resolve => {
-        core.debug(`Reading template file: ${template_filename}`);
-        const template = (0, fs_1.readFileSync)(template_filename, 'utf8');
-        core.debug(`Parsing input object: ${input_object}`);
-        const parsed_data = JSON.parse(input_object);
-        core.debug(`Parsed input object: ${JSON.stringify(parsed_data, null, 2)}`);
-        const result = Handlebars.compile(template)(parsed_data);
+        core.debug(`Parsed input data: ${JSON.stringify(input_data, null, 2)}`);
+        const result = Handlebars.compile(template_data)(input_data);
         if (output_filename) {
             core.info(`Writing generated file to ${output_filename}`);
             (0, fs_1.writeFileSync)(output_filename, result, 'utf8');
@@ -84,13 +80,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const generate_1 = __nccwpck_require__(2092);
+const validate_1 = __nccwpck_require__(1997);
 const core = __importStar(__nccwpck_require__(2186));
 async function run() {
     try {
-        const template_filename = core.getInput('template');
-        const input_object = core.getInput('json');
-        const output_filename = core.getInput('dest');
-        const result = await (0, generate_1.generate)(template_filename, input_object, output_filename);
+        const input_file = core.getInput('input_file');
+        const input = core.getInput('input');
+        const output_file = core.getInput('output_file');
+        const template_file = core.getInput('template_file');
+        const template = core.getInput('template');
+        const [template_data, input_data] = await (0, validate_1.validate)(input_file, input, template_file, template);
+        const result = await (0, generate_1.generate)(template_data, input_data, output_file);
         core.setOutput('result', result);
     }
     catch (error) {
@@ -99,6 +99,78 @@ async function run() {
     }
 }
 run();
+
+
+/***/ }),
+
+/***/ 1997:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.validate = void 0;
+const fs_1 = __nccwpck_require__(7147);
+const core = __importStar(__nccwpck_require__(2186));
+async function validate(input_file, input, template_file, template) {
+    return new Promise(resolve => {
+        let input_data = {};
+        let template_data = '';
+        if (template_file && template) {
+            throw new Error('You cannot specify both a template file and a template string');
+        }
+        if (input_file && input) {
+            throw new Error('You cannot specify both an input file and an input string');
+        }
+        if (template_file) {
+            core.debug(`Reading template file: ${template_file}`);
+            template_data = (0, fs_1.readFileSync)(template_file, 'utf8');
+        }
+        else if (template) {
+            core.debug(`Using passed template data`);
+            template_data = template;
+        }
+        else {
+            throw new Error('You must specify a template file or template string');
+        }
+        if (input_file) {
+            core.debug(`Reading input file: ${input_file}`);
+            input_data = JSON.parse((0, fs_1.readFileSync)(input_file, 'utf8'));
+        }
+        else if (input) {
+            core.debug(`Using passed input data`);
+            input_data = JSON.parse(input);
+        }
+        else {
+            throw new Error('You must specify an input file or input string');
+        }
+        resolve([template_data, input_data]);
+    });
+}
+exports.validate = validate;
 
 
 /***/ }),
