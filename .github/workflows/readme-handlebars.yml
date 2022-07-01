@@ -32,13 +32,13 @@ jobs:
       - name: Run handlebars action
         uses: ./
         with:
-          template: README.md.hbs
-          json: |
+          template_file: README.md.hbs
+          input: |
             {
               "github": ${{ toJson(github) }},
               "fam": ${{ env.TEST_DATA }}
             }
-          dest: README.md
+          output_file: README.md
       - uses: stefanzweifel/git-auto-commit-action@49620cd3ed21ee620a48530e81dba0d139c9cb80
         with:
           commit_message: "Update generated README"
