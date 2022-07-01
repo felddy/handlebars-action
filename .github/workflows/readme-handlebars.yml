@@ -4,8 +4,6 @@ name: Render README
 
 on:
   push:
-    branches:
-      - develop
     paths:
       - README.md.hbs
 
