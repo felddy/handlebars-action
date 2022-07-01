@@ -5,6 +5,7 @@ name: Render README
 on:
   push:
     paths:
+      - __tests__/test_data.json
       - README.md.hbs
 
 jobs:
