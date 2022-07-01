@@ -7,18 +7,24 @@ branding:
   color: 'purple'
 description: 'Apply a handlebars template'
 inputs:
-  template:
-    required: true
-    description: 'Template filename'
-  json:
-    required: true
-    description: 'JSON input object'
-  dest:
+  template_file:
     required: false
-    description: 'Output filename'
+    description: 'Handlebars template filename'
+  input_file:
+    required: false
+    description: 'JSON input object'
+  template:
+    required: false
+    description: 'Handlebars template'
+  input:
+    required: false
+    description: 'Handlebars template input'
+  output_file:
+    required: false
+    description: 'Output filename for rendered template'
 outputs:
   result:
-    description: 'Rendered template'
+    description: 'Rendered template data'
 
 runs:
   using: 'node16'
