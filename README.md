@@ -10,7 +10,7 @@ TODO
 ## Test template ##
 
 Hello, my name is Alan.
-I am from Somewhere, TX.
+I am from Somewhere, MD.
 I have 2 kids:
 
 - Jimmy is 12
