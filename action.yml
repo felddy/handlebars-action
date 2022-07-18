@@ -1,6 +1,6 @@
 ---
 
-name: 'Handlebars'
+name: 'Render Handlebars template'
 author: 'felddy'
 branding:
   icon: 'edit'
