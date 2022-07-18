@@ -1,4 +1,4 @@
-# handlebars-action #
+# Apply a handlebars template #
 
 [![GitHub Build Status](https://github.com/felddy/handlebars-action/workflows/build-test/badge.svg)](https://github.com/felddy/handlebars-action/actions/workflows/test.yml)
 [![CodeQL](https://github.com/felddy/handlebars-action/workflows/CodeQL/badge.svg)](https://github.com/felddy/handlebars-action/actions/workflows/codeql-analysis.yml)
