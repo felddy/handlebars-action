@@ -21,7 +21,7 @@ jobs:
       - name: Dump context
         uses: crazy-max/ghaction-dump-context@516dbb0c760f39b4cdd750ae095f1688780f68f4
       - name: Checkout
-        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
         # Store file contents in environment variable
       - name: Read input object file
         id: fam
